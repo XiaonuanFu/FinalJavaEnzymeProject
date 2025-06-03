@@ -1,21 +1,44 @@
-import org.jfree.data.general.Series;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-public class DataSet {
-    private XYSeriesCollection dataset;
-    private XYSeries series;
+public abstract class DataSet {
+    protected XYSeriesCollection datasetTemp;
+    protected XYSeriesCollection datasetpH;
+    protected XYSeriesCollection datasetSubstrate;
 
-    public void insertValues(String enzymeType, double temperature, double substrate, double pH){
-        dataset = new XYSeriesCollection();
-        series = new XYSeries("Activity rate");
-        for (int i = 0; i < 100; i++ ){
-            series.add(1, i);
-        }
-        dataset.addSeries(series);
+    protected XYSeries seriesTemp;
+    protected XYSeries seriespH;
+    protected XYSeries seriesSubstrate;
+
+    public DataSet(){
+        datasetTemp = new XYSeriesCollection();
+        datasetpH = new XYSeriesCollection();
+        datasetSubstrate = new XYSeriesCollection();
+
+        seriesTemp = new XYSeries("Temp");
+        seriespH = new XYSeries("pH");
+        seriesSubstrate = new XYSeries("Substrate");
+
+        datasetSubstrate.addSeries(seriesSubstrate);
+
+        createpHData();
+        createTempData();
     }
 
-    public XYSeriesCollection getSeries(){
-        return dataset;
+    public XYSeriesCollection getDatasetTemp(){
+        return datasetTemp;
     }
+
+    public XYSeriesCollection getDatasetpH(){
+        return datasetpH;
+    }
+
+    public XYSeriesCollection getDatasetSubstrate(){
+        return datasetSubstrate;
+    }
+
+    public abstract void createTempData();
+    public abstract void createpHData();
+    public abstract void updateSubstrateDataCompetitive(double inhibitorConcentration, double currentTemp, double currentpH);
+    public abstract void updateSubstrateData(double currentTemp, double currentpH);
 }

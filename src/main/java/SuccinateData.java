@@ -1,0 +1,37 @@
+public class SuccinateData extends DataSet{
+    private final int optimalpH = 8;
+    private final int optimalTemp = 37;
+    private final double ki = 33;
+    private final double vmax = 29;
+    private final double km = 1.2;
+
+    @Override
+    public void createTempData() {
+        for (int i = 1; i <= 100; i ++){
+            seriesTemp.add(i, EnzymeUtilities.temperatureEffect(2, i, optimalTemp));
+        }
+        datasetTemp.addSeries(seriesTemp);
+    }
+
+    @Override
+    public void createpHData() {
+        for (int i = 1; i <= 14; i ++){
+            seriespH.add(i,EnzymeUtilities.pHEffect(2,i,optimalpH));
+        }
+        datasetpH.addSeries(seriespH);
+    }
+
+    @Override
+    public void updateSubstrateDataCompetitive(double inhibitorConcentration, double currentTemp, double currentpH) {
+        seriesSubstrate.clear();
+        for (int i = 0; i < 100; i ++){
+            seriesSubstrate.add(i, EnzymeUtilities.competitiveInhibitor(2, i, currentTemp, currentpH, optimalTemp, optimalpH, vmax, km, inhibitorConcentration, ki));
+        }
+    }
+
+    // dont use this one
+    @Override
+    public void updateSubstrateData(double currentTemp, double currentpH) {
+
+    }
+}
