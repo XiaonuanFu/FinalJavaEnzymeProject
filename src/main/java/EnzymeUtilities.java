@@ -18,6 +18,13 @@ public class EnzymeUtilities {
         return Math.exp(-Math.pow((currentpH - optimalpH)/pHWidth[enzyme], 2));
     }
 
+    /**
+     * this function is ....
+     * @param enzyme  this parameter is
+     * @param currentTemp
+     * @param optimalTemp
+     * @return
+     */
     public static double temperatureEffect(int enzyme, double currentTemp, double optimalTemp) {
         double delta = Math.abs(currentTemp - optimalTemp);
         if (delta > tempTolerance[enzyme]) {

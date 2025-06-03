@@ -6,7 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+/**
+ * window Class
+ */
 public class Window {
+    /** inhibitor */
     private double inhibitor = 50;
     private double temp = 40;
     private double pH = 7;
