@@ -22,18 +22,13 @@ public class AmylaseData extends DataSet{
 
     }
 
-    // dont use this one
     @Override
-    public void updateSubstrateDataCompetitive(double inhibitorConcentration, double currentTemp, double currentpH) {
-
-    }
-
-    @Override
-    public void updateSubstrateData(double currentTemp, double currentpH) {
+    public void updateSubstrateData(double currentTemp, double currentpH, double inhibitorConcentration) {
         seriesSubstrate.clear();
         for (int i = 0; i < 100; i ++){
             seriesSubstrate.add(i, EnzymeUtilities.calculateRate(1, i, currentTemp,
-                    currentpH, optimalTemp, optimalpH, vmax, km));
+                    currentpH, optimalTemp, optimalpH, vmax, km, 0, 0));
         }
+
     }
 }

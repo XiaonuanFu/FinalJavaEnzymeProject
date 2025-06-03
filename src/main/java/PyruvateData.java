@@ -21,17 +21,13 @@ public class PyruvateData extends DataSet{
         datasetpH.addSeries(seriespH);
     }
 
-    @Override
-    public void updateSubstrateDataCompetitive(double inhibitorConcentration, double currentTemp, double currentpH) {
-//        seriesSubstrate.clear();
-//        for (int i = 0; i < 100; i ++){
-//            seriesSubstrate.add(i, EnzymeUtilities.noncompetitiveInhibitor(3, vmax, km, inhibitorConcentration, ki));
-//        }
-    }
-
     //dont use this one
     @Override
-    public void updateSubstrateData(double currentTemp, double currentpH) {
-
+    public void updateSubstrateData(double currentTemp, double currentpH, double inhibitorConcentration) {
+        seriesSubstrate.clear();
+        for (int i = 0; i < 100; i ++){
+            seriesSubstrate.add(i, EnzymeUtilities.calculateRate(3, i, currentTemp,
+                    currentpH, optimalTemp, optimalpH, vmax, km, inhibitorConcentration, ki));
+        }
     }
 }

@@ -26,9 +26,17 @@ public class EnzymeUtilities {
         return 1.0;
     }
 
-    public static double calculateRate(int enzyme, double substrateConc, double temperature, double pH, double optimalTemp, double optimalpH, double vmax, double km) {
+    public static double calculateRate(int enzyme, double substrateConc, double temperature, double pH, double optimalTemp, double optimalpH, double vmax, double km, double inhibitor, double ki) {
         // Calculate base rate
-        double baseRate = michaelisMenten(substrateConc, vmax, km);
+        double baseRate;
+        if (enzyme == PYRUVATE_KINASE) {
+            baseRate = noncompetitiveInhibitor(substrateConc, vmax, km, inhibitor, ki);
+        }else if(enzyme == SUCCINATE_DEHYDROGENASE) {
+            baseRate = competitiveInhibitor(substrateConc, vmax, km, inhibitor, ki);
+        }
+        else{
+            baseRate = michaelisMenten(substrateConc, vmax, km);
+        }
 
         // Apply environmental corrections
         double tempFactor = temperatureEffect(enzyme, temperature, optimalTemp);
@@ -39,19 +47,15 @@ public class EnzymeUtilities {
 
     // Michaelis-Menten equation for no inhibitor
     public static double michaelisMenten(double substrate, double vmax, double km) {
-        double rate = (vmax * substrate) / (km + substrate);
         return (vmax * substrate) / (km + substrate);
     }
 
     // competitive inhibitor rate equation
-    public static double competitiveInhibitor(int enzyme, double substrate, double temperature, double pH, double optimalTemp, double optimalpH, double vmax, double km, double I, double ki){
+    public static double competitiveInhibitor(double substrate, double vmax, double km, double I, double ki){
         double adjustedKm = km * (1 + I / ki);
         double rate = (vmax * substrate) / (adjustedKm + substrate);
 
-        double tempFactor = temperatureEffect(enzyme, temperature, optimalTemp);
-        double pHFactor = pHEffect(enzyme, pH, optimalpH);
-
-        return rate * tempFactor * pHFactor;
+        return rate;
     }
 
     // non competitive inhibitor rate equation
@@ -61,10 +65,10 @@ public class EnzymeUtilities {
         return rate;
     }
 
-    // Hill equation for cooperative enzymes
-//    private static double hillEquation(double substrate, double vmax,
-//                                double kHalf, double hillCoeff) {
-//        return (vmax * Math.pow(substrate, hillCoeff)) /
-//                (Math.pow(kHalf, hillCoeff) + Math.pow(substrate, hillCoeff));
-//    }
+//     Hill equation for cooperative enzymes
+    private static double hillEquation(double substrate, double vmax,
+                                double kHalf, double hillCoeff) {
+        return (vmax * Math.pow(substrate, hillCoeff)) /
+                (Math.pow(kHalf, hillCoeff) + Math.pow(substrate, hillCoeff));
+    }
 }

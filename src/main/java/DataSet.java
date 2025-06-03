@@ -39,6 +39,5 @@ public abstract class DataSet {
 
     public abstract void createTempData();
     public abstract void createpHData();
-    public abstract void updateSubstrateDataCompetitive(double inhibitorConcentration, double currentTemp, double currentpH);
-    public abstract void updateSubstrateData(double currentTemp, double currentpH);
+    public abstract void updateSubstrateData(double currentTemp, double currentpH, double inhibitorConcentration);
 }

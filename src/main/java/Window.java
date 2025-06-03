@@ -7,9 +7,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Window {
-    private double inhibitor;
-    private double temp;
-    private double pH;
+    private double inhibitor = 50;
+    private double temp = 40;
+    private double pH = 7;
 
     JFrame frame;
     JPanel topPanel;
@@ -66,8 +66,8 @@ public class Window {
         topPanel.add(inhibitorLabel);
         topPanel.add(inhibitorSlider);
 
-        tempLabel = new JLabel("Temperature: 25 °C");
-        tempSlider = new JSlider(20,100,25);
+        tempLabel = new JLabel("Temperature: 40 °C");
+        tempSlider = new JSlider(20,100,40);
         topPanel.add(tempLabel);
         topPanel.add(tempSlider);
 
@@ -133,7 +133,7 @@ public class Window {
     }
 
     private void updateChartsForEnzyme(){
-        datasets.get(enzymeIndex).updateSubstrateData(temp, pH);
+        datasets.get(enzymeIndex).updateSubstrateData(temp, pH, inhibitor);
         charts.setSubstrateChartData(datasets.get(enzymeIndex).getDatasetSubstrate());
     }
 
