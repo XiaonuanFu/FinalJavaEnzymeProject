@@ -7,14 +7,20 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 /**
- * window Class
+ * Window Class: creates the window where all the information would be displayed - it has sliders and labels that change based on user input
  */
 public class Window {
-    /** inhibitor */
+    /**
+     * Private attributes that determine the starting values for all the features - all of them are generally ideal values (ideal for enzymes not humans)
+     * So usually the first graph the user generates would show the most "optimal" reaction rate
+     * */
     private double inhibitor = 50;
     private double temp = 40;
     private double pH = 7;
 
+    /**
+     * Attributes for the frame, the label, and the slider for all the features
+     */
     JFrame frame;
     JPanel topPanel;
     JPanel bottomPanel;
@@ -31,6 +37,10 @@ public class Window {
 
     JLabel note;
 
+    /**
+     * The user can choose 1 out of 3 enzymes so this is an array that stores all their names
+     * Later the user would have an option bar that displays these options so everything that bar requires is initialized here
+     */
     String[] enzymeNames = {"Alpha-Amylase", "Succinate Dehydrogenase", "Pyruvate Kinase"};
     int enzymeIndex = 0;
     JComboBox<String> enzymeTypesCombo;
@@ -38,29 +48,47 @@ public class Window {
     private ArrayList<DataSet> datasets = new ArrayList<DataSet>();
     private TwoDChart charts = new TwoDChart();
 
-    //drawing the window for the graph
+    /**
+     * Drawing the window which will show all the graphs
+     */
     public void drawWindow(){
         frame = new JFrame("Enzyme Project");
         frame.setSize(1500,900);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // ends the program when you close the window
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Ends the program when you close the window
         frame.setLayout(new BorderLayout());
 
+        /**
+         * Draws the sliders and labels
+         */
         drawComponent();
         frame.setVisible(true);
 
+        /**
+         * Listener that changes the values displayed based on the user input
+         */
         Listener();
 
-
+        /**
+         * Draws the graph
+         */
         charts.drawChart(frame);
 
+        /**
+         * Adds the data sets and draws the actual contents of the graph
+         */
         datasets.add(new AmylaseData());
         datasets.add(new SuccinateData());
         datasets.add(new PyruvateData());
 
+        /**
+         * If you click the update button after changing some of the values the graph would change as well
+         */
         updataChartpHandTemp();
     }
 
-    //drawing the components for the window
+    /**
+     * Drawing the components for the window
+     */
     private void drawComponent(){
         topPanel = new JPanel();
         bottomPanel = new JPanel();
@@ -93,54 +121,77 @@ public class Window {
         frame.add(bottomPanel, BorderLayout.SOUTH);
     }
 
+    /**
+     * Listener that changes the values displayed in the window depending on the change in user input
+     */
     private void Listener(){
-        // inhibitor concentration slider listener
+        /**
+         * Inhibitor concentration slider listener
+         */
         inhibitorSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 inhibitor = inhibitorSlider.getValue();
-                inhibitorLabel.setText("Inhibitor Concentration [I]: " + inhibitor); // 更新底物浓度标签显示
+                inhibitorLabel.setText("Inhibitor Concentration [I]: " + inhibitor); // Updates the amount of inhibitors displayed
 
             }
         });
 
-        //pH slider listener
+        /**
+         * pH slider listener
+         */
         pHSlider.addChangeListener(e -> {
-            pH = pHSlider.getValue(); // changes the value displayed by pH from 1-14
+            pH = pHSlider.getValue(); // Updates the value displayed by pH from 1-14
             pHLabel.setText(String.format("pH: " + pH));
         });
 
-        // temperature slider listener
+        /**
+         * Temperature slider listener
+         */
         tempSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 temp = tempSlider.getValue();
-                tempLabel.setText("Temperature: " + temp + " °C"); // shows the new temperature
+                tempLabel.setText("Temperature: " + temp + " °C"); // Updates the value displayed for temperature
             }
         });
 
-        //update按钮按下的监听
+        /**
+         * Update button listener
+         */
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                updateChartsForEnzyme();  // 调用你定义的函数
+                updateChartsForEnzyme();  // updates the charts based on the new data
             }
         });
 
+        /**
+         * Listener that changes the current enzyme selected
+         */
         enzymeTypesCombo.addActionListener(e -> {
             JComboBox<?> combo = (JComboBox<?>) e.getSource();
             this.enzymeIndex = combo.getSelectedIndex();
-            // 根据选择更新UI或数据，可以combo选择变更，也可以用按钮变更
+            /**
+             * Updates the pH and temp data based on the current enzyme - because each enzyme has different pH and temperature conditions they react under
+             * Selection can be changed using the combo box
+             */
             updataChartpHandTemp();
         });
 
     }
 
+    /**
+     * Method that updates the rate vs substrate graph
+     */
     private void updateChartsForEnzyme(){
         datasets.get(enzymeIndex).updateSubstrateData(temp, pH, inhibitor);
         charts.setSubstrateChartData(datasets.get(enzymeIndex).getDatasetSubstrate());
     }
 
+    /**
+     * Method that updates the rate vs pH and rate vs temp graphs
+     */
     private void updataChartpHandTemp(){
         charts.setpHChartData(datasets.get(enzymeIndex).getDatasetpH());
         charts.setTempChartData(datasets.get(enzymeIndex).getDatasetTemp());
