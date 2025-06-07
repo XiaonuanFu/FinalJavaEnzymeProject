@@ -4,11 +4,12 @@
  */
 
 public class SuccinateData extends DataSet{
-    private final int optimalpH = 8;
-    private final int optimalTemp = 37;
-    private final double ki = 33;
-    private final double vmax = 29;
-    private final double km = 1.2;
+    private final double optimalpH = 7.6;
+    private final int optimalTemp = 25; // ideal temp goes from 30-80 but this one is for enzymes in beef heart
+    // the locations of these enzymes are different in the different reports
+    private final double ki = 25;
+    private final double vmax = 100;
+    private final double km = 1.42;
 
     /**
      * Calculates the data for the temp vs rate graph

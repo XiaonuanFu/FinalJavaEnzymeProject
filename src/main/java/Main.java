@@ -1,5 +1,4 @@
 public class Main {
-
     /**
      * Main function: I try to not do anything in this class except initialize a new window
      * (Otherwise the code gets messy and I get confused)

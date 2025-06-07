@@ -5,9 +5,9 @@
 
 public class AmylaseData extends DataSet{
     private  final int optimalpH = 7;
-    private  final int optimalTemp = 37;
-    private final double vmax = 200;
-    private final double km = 1;
+    private  final int optimalTemp = 36;
+    private final double vmax = 6.869;
+    private final double km = 11.87;
 
     /**
      * Calculates the data for the pH vs rate graph

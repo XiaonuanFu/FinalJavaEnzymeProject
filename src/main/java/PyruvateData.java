@@ -4,8 +4,8 @@
  */
 
 public class PyruvateData extends DataSet{
-    private final int optimalpH = 8;
-    private final int optimalTemp = 37;
+    private final double optimalpH = 7.5;
+    private final int optimalTemp = 25;
     private final double ki = 6.5;
     private final double vmax = 220;
     private final double km = 2.31;

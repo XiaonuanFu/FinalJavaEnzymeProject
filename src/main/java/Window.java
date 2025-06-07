@@ -93,8 +93,8 @@ public class Window {
         topPanel = new JPanel();
         bottomPanel = new JPanel();
 
-        inhibitorLabel = new JLabel("Inhibitor Concentration [I]: 50");
-        inhibitorSlider = new JSlider(0,100,50);
+        inhibitorLabel = new JLabel("Inhibitor Concentration [I]: 0");
+        inhibitorSlider = new JSlider(0,100,0);
         topPanel.add(inhibitorLabel);
         topPanel.add(inhibitorSlider);
 
